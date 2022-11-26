@@ -15,3 +15,13 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+  - task: AzureWebApp@1
+  - task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    inputs:
+      azureSubscription: 'AzureRmPipeline-conn'
+      appType: 'webAppLinux'
+      appName: 'sunnyman'
+      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
